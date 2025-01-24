@@ -1,12 +1,12 @@
 const CACHE_NAME = "noleggio-cache-v1";
 const urlsToCache = [
-    "/",
-    "/index.html",
-    "/style.css",
-    "/app.js",
-    "/manifest.json",
-    "/icons/icons_crm-192x192.png",
-    "/icons/icons_crm-512x512.png"
+    './',
+    './index.html',
+    './styles.css',
+    './app.js',
+    './manifest.json',
+    './icons/icons_crm-192x192.png',
+    './icons/icons_crm-512x512.png'
 ];
 
 self.addEventListener("install", (event) => {
