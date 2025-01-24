@@ -3,45 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Locazione Operativa</title>
-    <link rel="manifest" href="manifest.json">
+    <title>Calcolo Noleggio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Gestione Locazione Operativa</h1>
+        <h1>Calcolo Noleggio</h1>
         <button id="darkModeToggle">🌙 Modalità Scura</button>
     </header>
     <main>
         <section>
-            <h2>Carica CSV Prodotti</h2>
-            <input type="file" id="csvFile" accept=".csv">
-        </section>
-        <section>
-            <h2>Prodotti Disponibili</h2>
-            <input type="text" id="searchProduct" placeholder="Cerca prodotti">
-            <select id="productList" multiple></select>
-            <button onclick="selectProduct()">Aggiungi al Noleggio</button>
-        </section>
-        <section>
-            <h2>Tabella Noleggio</h2>
-            <table id="itemsTable">
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Descrizione</th>
-                        <th>Quantità</th>
-                        <th>Prezzo</th>
-                        <th>Totale</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-        <section>
             <h2>Calcolo Noleggio</h2>
             <label for="importo">Importo:</label>
-            <input type="text" id="importo">
+            <input type="text" id="importo" placeholder="Inserisci importo">
             <label for="durata">Durata (mesi):</label>
             <select id="durata">
                 <option value="12">12</option>
@@ -54,11 +28,32 @@
             <p>Rata Mensile: <span id="rataMensile"></span></p>
             <p>Spese Contratto: <span id="speseContratto"></span></p>
         </section>
-        <button id="notifyBtn">Attiva Notifiche</button>
     </main>
     <footer>
         <p>&copy; 2025 Gestione Locazione Operativa</p>
     </footer>
-    <script src="app.js"></script>
+    <script>
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (JSON.parse(localStorage.getItem('darkMode'))) {
+                document.body.classList.add('dark-mode');
+            }
+        });
+
+        function calcola() {
+            const importo = parseFloat(document.getElementById('importo').value) || 0;
+            const durata = parseInt(document.getElementById('durata').value);
+            const coefficiente = { 12: 0.084, 24: 0.047, 36: 0.033, 48: 0.026, 60: 0.022 };
+            const rataMensile = importo * (coefficiente[durata] || 0);
+            const speseContratto = importo < 5000 ? 75 : 150;
+
+            document.getElementById('rataMensile').textContent = `${rataMensile.toFixed(2)} €`;
+            document.getElementById('speseContratto').textContent = `${speseContratto} €`;
+        }
+    </script>
 </body>
 </html>
