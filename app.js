@@ -1,23 +1,11 @@
-document.getElementById('darkModeToggle').addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    if (JSON.parse(localStorage.getItem('darkMode'))) {
-        document.body.classList.add('dark-mode');
-    }
-});
-
+// Calcolo Noleggio
 function calcola() {
     let importoInput = document.getElementById("importo").value;
     let importo = parseEuropeanFloat(importoInput);
-
     if (importo === 0 || isNaN(importo)) {
         alert("Per favore, inserisci un importo valido.");
         return;
     }
-
     let durata = parseInt(document.getElementById("durata").value);
     let rataMensile = 0;
     let speseContratto = 0;
@@ -53,6 +41,7 @@ function calcola() {
     document.getElementById("costoOrario").textContent = formatNumber(costoOrario) + " €";
 }
 
+// Funzione per convertire un numero europeo in float
 function parseEuropeanFloat(value) {
     if (!value) return 0;
     value = value.replace(/€/g, '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
@@ -60,6 +49,26 @@ function parseEuropeanFloat(value) {
     return isNaN(parsed) ? 0 : parsed;
 }
 
+// Funzione per formattare un numero
 function formatNumber(value) {
     return value.toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// Modalità Scura
+document.getElementById('darkModeToggle').addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (JSON.parse(localStorage.getItem('darkMode'))) {
+        document.body.classList.add('dark-mode');
+    }
+});
+
+// Registrazione del Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('Service Worker registrato con successo!'))
+        .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
 }
