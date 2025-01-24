@@ -12,22 +12,37 @@
         <button id="darkModeToggle">🌙 Modalità Scura</button>
     </header>
     <main>
-        <section>
-            <h2>Calcolo Noleggio</h2>
-            <label for="importo">Importo:</label>
-            <input type="text" id="importo" placeholder="Inserisci importo">
-            <label for="durata">Durata (mesi):</label>
-            <select id="durata">
-                <option value="12">12</option>
-                <option value="24">24</option>
-                <option value="36">36</option>
-                <option value="48">48</option>
-                <option value="60">60</option>
-            </select>
-            <button onclick="calcola()">Calcola</button>
-            <p>Rata Mensile: <span id="rataMensile"></span></p>
-            <p>Spese Contratto: <span id="speseContratto"></span></p>
-        </section>
+        <div class="noleggio-container">
+            <h1>Simulatore Calcolo Canoni Locazione</h1>
+            <div class="input-group">
+                <label for="importo">Inserisci importo (o usa il totale del preventivo):</label>
+                <input type="text" id="importo" placeholder="Inserisci importo" />
+                <button class="noleggio-button" onclick="useTotal()">Usa Totale Preventivo</button>
+            </div>
+            <div class="input-group">
+                <label for="durata">Durata:</label>
+                <select id="durata">
+                    <option value="12">12 mesi</option>
+                    <option value="18">18 mesi</option>
+                    <option value="24" selected>24 mesi</option>
+                    <option value="36">36 mesi</option>
+                    <option value="48">48 mesi</option>
+                    <option value="60">60 mesi</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="logoInput">Carica Logo:</label>
+                <input type="file" id="logoInput" accept="image/*">
+                <img id="logoPreview" style="display: none; max-width: 150px;">
+            </div>
+            <button class="button" onclick="calcola()">Calcola</button>
+            <div class="results">
+                <p>Rata mensile: <span id="rataMensile">0,00 €</span></p>
+                <p>Spese di contratto: <span id="speseContratto">0,00 €</span></p>
+                <p>Costo giornaliero: <span id="costoGiornaliero">0,00 €</span></p>
+                <p>Costo orario: <span id="costoOrario">0,00 €</span></p>
+            </div>
+        </div>
     </main>
     <footer>
         <p>&copy; 2025 Gestione Locazione Operativa</p>
@@ -44,15 +59,76 @@
             }
         });
 
-        function calcola() {
-            const importo = parseFloat(document.getElementById('importo').value) || 0;
-            const durata = parseInt(document.getElementById('durata').value);
-            const coefficiente = { 12: 0.084, 24: 0.047, 36: 0.033, 48: 0.026, 60: 0.022 };
-            const rataMensile = importo * (coefficiente[durata] || 0);
-            const speseContratto = importo < 5000 ? 75 : 150;
+        document.getElementById('logoInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                logoDataURL = e.target.result;
+                document.getElementById('logoPreview').src = logoDataURL;
+                document.getElementById('logoPreview').style.display = 'block';
 
-            document.getElementById('rataMensile').textContent = `${rataMensile.toFixed(2)} €`;
-            document.getElementById('speseContratto').textContent = `${speseContratto} €`;
+                const img = new Image();
+                img.src = logoDataURL;
+                img.onload = function() {
+                    logoWidth = img.naturalWidth;
+                    logoHeight = img.naturalHeight;
+                };
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function calcola() {
+            let importoInput = document.getElementById("importo").value;
+            let importo = parseEuropeanFloat(importoInput);
+            if (importo === 0 || isNaN(importo)) {
+                importo = parseEuropeanFloat(document.getElementById("totalArticlesValue")?.textContent || "0");
+            }
+            let durata = parseInt(document.getElementById("durata").value);
+            let rataMensile = 0;
+            let speseContratto = 0;
+
+            if (importo < 5001) { speseContratto = 75; }
+            else if (importo < 10001) { speseContratto = 100; }
+            else if (importo < 25001) { speseContratto = 150; }
+            else if (importo < 50001) { speseContratto = 225; }
+            else { speseContratto = 300; }
+
+            const coefficienti = {
+                5000: { 12: 0.084167, 18: 0.060596, 24: 0.047514, 36: 0.033879, 48: 0.026723, 60: 0.022489 },
+                15000: { 12: 0.083542, 18: 0.059999, 24: 0.046924, 36: 0.033290, 48: 0.026122, 60: 0.021874 },
+                25000: { 12: 0.083386, 18: 0.059850, 24: 0.046777, 36: 0.033143, 48: 0.025973, 60: 0.021722 },
+                50000: { 12: 0.082867, 18: 0.059354, 24: 0.046290, 36: 0.032658, 48: 0.025479, 60: 0.021219 },
+                100000: { 12: 0.082867, 18: 0.059354, 24: 0.046290, 36: 0.032658, 48: 0.025479, 60: 0.021219 }
+            };
+
+            for (let maxImporto in coefficienti) {
+                if (importo <= maxImporto) {
+                    rataMensile = importo * coefficienti[maxImporto][durata];
+                    break;
+                }
+            }
+
+            document.getElementById("rataMensile").textContent = formatNumber(rataMensile) + " €";
+            document.getElementById("speseContratto").textContent = formatNumber(speseContratto) + " €";
+
+            let costoGiornaliero = rataMensile / 22;
+            let costoOrario = costoGiornaliero / 8;
+
+            document.getElementById("costoGiornaliero").textContent = formatNumber(costoGiornaliero) + " €";
+            document.getElementById("costoOrario").textContent = formatNumber(costoOrario) + " €";
+        }
+
+        function parseEuropeanFloat(value) {
+            if (!value) return 0;
+            value = value.replace(/€/g, '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+            const parsed = parseFloat(value);
+            return isNaN(parsed) ? 0 : parsed;
+        }
+
+        function formatNumber(value) {
+            return value.toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
     </script>
 </body>
