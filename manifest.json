@@ -1,10 +1,12 @@
 {
   "name": "Calcolo Noleggio",
   "short_name": "Noleggio",
+  "description": "Una PWA per calcolare i canoni di noleggio.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
+  "scope": "./",
   "icons": [
     {
       "src": "icons/icons_crm-192x192.png",
