@@ -1,18 +1,18 @@
 {
-    "name": "Gestione Locazione Operativa",
-    "short_name": "Locazione",
-    "start_url": "./index.html",
+    "name": "Calcolo Noleggio",
+    "short_name": "Noleggio",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#007bff",
+    "theme_color": "#0078d7",
     "icons": [
         {
-            "src": "./icons/icons_crm-192x192.png",
+            "src": "icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "./icons/icons_crm-512x512.png",
+            "src": "icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
