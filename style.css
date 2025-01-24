@@ -7,46 +7,71 @@ body {
 }
 
 header {
-    background: #007bff;
+    background: #0078d7;
     color: #fff;
-    padding: 1rem;
+    padding: 10px 20px;
     text-align: center;
 }
 
-main {
-    padding: 1rem;
-}
-
-section {
-    margin-bottom: 1.5rem;
-}
-
-.dark-mode {
-    background-color: #121212;
-    color: #f4f4f4;
+header h1 {
+    margin: 0;
 }
 
 button {
-    padding: 0.5rem 1rem;
-    background: #007bff;
-    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
+    background-color: #0078d7;
+    color: #fff;
     cursor: pointer;
+    margin: 10px 0;
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #005fa3;
 }
 
-table {
+.noleggio-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin: 15px 0;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: center;
+.results {
+    margin-top: 20px;
+}
+
+.results p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode header {
+    background-color: #555;
 }
