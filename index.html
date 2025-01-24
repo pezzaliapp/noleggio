@@ -15,9 +15,8 @@
         <div class="noleggio-container">
             <h1>Simulatore Calcolo Canoni Locazione</h1>
             <div class="input-group">
-                <label for="importo">Inserisci importo (o usa il totale del preventivo):</label>
+                <label for="importo">Inserisci importo:</label>
                 <input type="text" id="importo" placeholder="Inserisci importo" />
-                <button class="noleggio-button" onclick="useTotal()">Usa Totale Preventivo</button>
             </div>
             <div class="input-group">
                 <label for="durata">Durata:</label>
@@ -29,11 +28,6 @@
                     <option value="48">48 mesi</option>
                     <option value="60">60 mesi</option>
                 </select>
-            </div>
-            <div class="input-group">
-                <label for="logoInput">Carica Logo:</label>
-                <input type="file" id="logoInput" accept="image/*">
-                <img id="logoPreview" style="display: none; max-width: 150px;">
             </div>
             <button class="button" onclick="calcola()">Calcola</button>
             <div class="results">
@@ -59,31 +53,12 @@
             }
         });
 
-        document.getElementById('logoInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                logoDataURL = e.target.result;
-                document.getElementById('logoPreview').src = logoDataURL;
-                document.getElementById('logoPreview').style.display = 'block';
-
-                const img = new Image();
-                img.src = logoDataURL;
-                img.onload = function() {
-                    logoWidth = img.naturalWidth;
-                    logoHeight = img.naturalHeight;
-                };
-            };
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        });
-
         function calcola() {
             let importoInput = document.getElementById("importo").value;
             let importo = parseEuropeanFloat(importoInput);
             if (importo === 0 || isNaN(importo)) {
-                importo = parseEuropeanFloat(document.getElementById("totalArticlesValue")?.textContent || "0");
+                alert("Per favore, inserisci un importo valido.");
+                return;
             }
             let durata = parseInt(document.getElementById("durata").value);
             let rataMensile = 0;
