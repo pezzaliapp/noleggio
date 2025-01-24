@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locazione Operativa</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Gestione Locazione Operativa</h1>
+        <button id="darkModeToggle">🌙 Modalità Scura</button>
+    </header>
+    <main>
+        <section>
+            <h2>Carica CSV Prodotti</h2>
+            <input type="file" id="csvFile" accept=".csv">
+        </section>
+        <section>
+            <h2>Prodotti Disponibili</h2>
+            <input type="text" id="searchProduct" placeholder="Cerca prodotti">
+            <select id="productList" multiple></select>
+            <button onclick="selectProduct()">Aggiungi al Noleggio</button>
+        </section>
+        <section>
+            <h2>Tabella Noleggio</h2>
+            <table id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>Codice</th>
+                        <th>Descrizione</th>
+                        <th>Quantità</th>
+                        <th>Prezzo</th>
+                        <th>Totale</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Calcolo Noleggio</h2>
+            <label for="importo">Importo:</label>
+            <input type="text" id="importo">
+            <label for="durata">Durata (mesi):</label>
+            <select id="durata">
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="36">36</option>
+                <option value="48">48</option>
+                <option value="60">60</option>
+            </select>
+            <button onclick="calcola()">Calcola</button>
+            <p>Rata Mensile: <span id="rataMensile"></span></p>
+            <p>Spese Contratto: <span id="speseContratto"></span></p>
+        </section>
+        <button id="notifyBtn">Attiva Notifiche</button>
+    </main>
+    <footer>
+        <p>&copy; 2025 Gestione Locazione Operativa</p>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
