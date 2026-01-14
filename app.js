@@ -291,15 +291,22 @@
       .catch((err) => console.error("Errore nella registrazione del Service Worker:", err));
   }
 
-  // ---------- BOOT ----------
-  document.addEventListener("DOMContentLoaded", () => {
-    bindDarkMode();
-    ensureExtraUI();
-    registerServiceWorker();
-  });
+ // ---------- BOOT ----------
+document.addEventListener("DOMContentLoaded", () => {
+  bindDarkMode();
+  ensureExtraUI();
+  registerServiceWorker();
 
-  // Esporta funzioni per onclick HTML
-  window.calcola = calcola;
-  window.generaTXT = generaTXT;
+  // 🔁 Reload automatico quando entra in funzione una nuova versione
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      window.location.reload();
+    });
+  }
+});
+
+// Esporta funzioni per onclick HTML
+window.calcola = calcola;
+window.generaTXT = generaTXT;
 
 })();
