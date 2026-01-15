@@ -24,7 +24,7 @@
 
   // Coefficienti BCC (percentuali convertite in decimali)
   // Fasce IMPORTI (fino a): 5k, 15k, 25k, 50k, 100k, 999999
-  const BCC_COEFFICIENTS_BY_BAND = {
+  const _COEFFICIENTS_BY_BAND = {
     5000:   { 12: 0.08112, 18: 0.05824, 24: 0.04555, 36: 0.03236, 48: 0.02544, 60: 0.02136 },
     15000:  { 12: 0.08143, 18: 0.05834, 24: 0.04554, 36: 0.03221, 48: 0.02521, 60: 0.02107 },
     25000:  { 12: 0.08128, 18: 0.05820, 24: 0.04539, 36: 0.03206, 48: 0.02507, 60: 0.02093 },
@@ -36,7 +36,7 @@
   const STORAGE_KEY_DARKMODE = "darkMode";
 
   // Nota tecnica richiesta (UI + TXT)
-  const NOTA_BCC = "Calcolo allineato al simulatore BCC (scostamenti minimi dovuti ad arrotondamenti Excel)";
+  const NOTA_ = "Calcolo allineato al simulatore (scostamenti minimi dovuti ad arrotondamenti Excel)";
 
   // ---------- UTILS ----------
   function $(id) {
