@@ -226,7 +226,7 @@
     const importoFinanziato = round2(imponibile - vr.valore);
 
     let testo = "";
-    testo += "PREVENTIVO DI NOLEGGIO OPERATIVO BCC (simulazione)\n";
+    testo += "PREVENTIVO DI NOLEGGIO OPERATIVO (simulazione)\n";
     testo += "---------------------------------------------------\n\n";
 
     testo += `${NOTA_BCC}\n\n`;
